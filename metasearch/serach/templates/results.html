@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Results</title>
+    <style>
+        sub {
+          vertical-align: sub;
+          font-size: smaller;
+        }
+    </style>
+</head>
+<body>
+        <a href="./">MSE</a>
+        <h1>Results!</h1>
+        {% for res in res_number %}
+        <div>
+        <a href={{ res.url}}>{{res.title}}</a>
+        <sub>{{res.url}}</sub>
+        <p style="color:red;">{{ res.rank }}</p>
+        <p style="color:green;">{{ res.se }}</p>
+        </div>
+        {% endfor %}
+</body>
+</html>

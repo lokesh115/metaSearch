@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<body>
+<div class="style1">
+	<center>
+		<h1>MSE</h1>
+		<form action="serach" method="post">
+			<input placeholder="Enter your query..." name="query" id="query">
+			{% csrf_token %}
+			<button type="submit">Search</button>
+		</form>
+	</center>
+</div>
+</body>
+</html>
