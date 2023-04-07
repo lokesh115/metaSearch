@@ -2,7 +2,6 @@ class mse:
     def __init__(self, ua, query):
         self.userAgent = ua
         self.query = query
-
     def search_query(self):
         from . import scrapers
         from . import algorithms

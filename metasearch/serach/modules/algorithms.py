@@ -76,4 +76,9 @@ class algorithms:
         ranks = self.novel_approach(query, results)
         gen = genetic.genetic(query, results, ranks)
         res = gen.start_ranking()
+        print("Genetic Alg executed!!")
+        print()
+        print("Proposed Approach : ")
+        for key in res.keys():
+            print(f"{key} : {res[key][0]} , {res[key][1]} , {res[key][2]}, {ranks[key][0]}, {ranks[key][1]}")
         return (self.ranked_order(res))

@@ -1,0 +1,5 @@
+query="loeksh nowpda"
+userAgent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/111.0.0.0 Safari/537.36"
+from ScrapeSearchEngine.ScrapeSearchEngine import Bing
+bing = Bing(query, userAgent)
+print(bing)

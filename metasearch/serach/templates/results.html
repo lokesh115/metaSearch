@@ -4,22 +4,141 @@
     <meta charset="UTF-8">
     <title>Results</title>
     <style>
-        sub {
-          vertical-align: sub;
-          font-size: smaller;
+      body {
+        margin: 10px;
+        padding: 10px;
+        background-color: rgb(42, 39, 39);
+      }
+      .logo{
+        display:inline-flex;
+      }
+      .logo button{
+        display: inline-block;
+        margin: 20px 20px;
+        background: transparent;
+        border: none;
+        font-size: 30px;
+        color:rgb(254, 253, 253);
+        cursor: pointer;
+      }
+      .logo .subutton{
+        display: inline-block;
+        font-size: 15px;
+        margin-top: 10px;
+        margin-left: 0px;
+        background:rgb(92, 164, 92)
+      }
+      .logo input{
+        display: inline-block;
+        margin-top: 30px;
+        margin-left: 30px;
+      }
+      .Url{
+        padding: 10px 10px;
+      }
+      .Url a{
+        text-decoration: None;
+        color: rgb(186, 186, 255);
+      }
+      .Url .para{
+        font-size: 15px;
+        display: inline-block;
+        margin-left: 20px;
+      }
+      .sub {
+        vertical-align: sub;
+        font-size: 10px;
+        color:rgb(106, 106, 106);
+      }
+      .hrr{
+        width:50%;
+        margin-left: 10px;
+        height: 0.05px;
+        color: rgb(43, 42, 42);
         }
-    </style>
+      hr{
+        height: 1px;
+        width: 100%;
+        color: rgb(105, 101, 101);
+      }
+      .loader {
+        position: relative;
+        margin-left: 10px;
+        margin-top: 22px;
+        width: 60px;
+        height: 40px;
+        position: relative;
+        display: inline-block;
+        --base-color: #263238; /*use your base color*/
+      }
+      .loader::before {
+        content: '';  
+        left: 0;
+        top: 0;
+        position: absolute;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background-color: #FFF;
+        background-image: radial-gradient(circle 8px at 18px 18px, var(--base-color) 100%, transparent 0), radial-gradient(circle 4px at 18px 0px, var(--base-color) 100%, transparent 0), radial-gradient(circle 4px at 0px 18px, var(--base-color) 100%, transparent 0), radial-gradient(circle 4px at 36px 18px, var(--base-color) 100%, transparent 0), radial-gradient(circle 4px at 18px 36px, var(--base-color) 100%, transparent 0), radial-gradient(circle 4px at 30px 5px, var(--base-color) 100%, transparent 0), radial-gradient(circle 4px at 30px 5px, var(--base-color) 100%, transparent 0), radial-gradient(circle 4px at 30px 30px, var(--base-color) 100%, transparent 0), radial-gradient(circle 4px at 5px 30px, var(--base-color) 100%, transparent 0), radial-gradient(circle 4px at 5px 5px, var(--base-color) 100%, transparent 0);
+        background-repeat: no-repeat;
+        box-sizing: border-box;
+        animation: rotationBack 3s linear infinite;
+      }
+      .loader::after {
+        content: '';  
+        left: 35px;
+        top: 15px;
+        position: absolute;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background-color: #FFF;
+        background-image: radial-gradient(circle 5px at 12px 12px, var(--base-color) 100%, transparent 0), radial-gradient(circle 2.5px at 12px 0px, var(--base-color) 100%, transparent 0), radial-gradient(circle 2.5px at 0px 12px, var(--base-color) 100%, transparent 0), radial-gradient(circle 2.5px at 24px 12px, var(--base-color) 100%, transparent 0), radial-gradient(circle 2.5px at 12px 24px, var(--base-color) 100%, transparent 0), radial-gradient(circle 2.5px at 20px 3px, var(--base-color) 100%, transparent 0), radial-gradient(circle 2.5px at 20px 3px, var(--base-color) 100%, transparent 0), radial-gradient(circle 2.5px at 20px 20px, var(--base-color) 100%, transparent 0), radial-gradient(circle 2.5px at 3px 20px, var(--base-color) 100%, transparent 0), radial-gradient(circle 2.5px at 3px 3px, var(--base-color) 100%, transparent 0);
+        background-repeat: no-repeat;
+        box-sizing: border-box;
+        animation: rotationBack 4s linear infinite reverse;
+      }
+      @keyframes rotationBack {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(-360deg);
+        }
+      }  
+          
+      
+        </style>
+        
+    
+        <script>
+          function startLoader(){
+            console.log("Heree");
+            document.getElementById("load1").className = "loader";            
+          }
+        </script>
 </head>
 <body>
-        <a href="./">MSE</a>
-        <h1>Results!</h1>
+  <div class="logo">
+        <button onclick="window.location.href='./'">MetaSearch</button>
+        <form method="post" class="Form">
+          <input placeholder="Enter your query..." name="query" id="query">
+          {% csrf_token %}
+          <button class="subutton" type="submit" onclick="startLoader()">Search</button>
+          
+        </form>
+        <div id="load1"></div>
+  </div>
+        <hr>
         {% for res in res_number %}
-        <div>
-        <a href={{ res.url}}>{{res.title}}</a>
-        <sub>{{res.url}}</sub>
-        <p style="color:red;">{{ res.rank }}</p>
-        <p style="color:green;">{{ res.se }}</p>
-        </div>
+        <div class="Url">
+        <a href={{ res.url}}>{{res.title}}<p class="sub">{{res.url}}</p></a>
+        <p class="para" style="color:rgb(241, 191, 191);">Match : {{ res.rank }}%</p>
+        <p class="para" style="color:rgb(92, 164, 92);">{{ res.se }}</p>
+         
+      </div>
+      <hr class="hrr"> 
         {% endfor %}
 </body>
 </html>

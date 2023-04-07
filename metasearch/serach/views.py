@@ -7,6 +7,7 @@ from .modules import mse
 
 def mainp(request):
     if request.method == "POST":
+        URLdata.objects.all().delete()
         term = request.POST["query"]
         return search_term(request, term)
     else:

@@ -9,43 +9,28 @@ class genetic:
         self.ranks = ranks
 
     def func(self, x, y):
-        arg_vector = []
-        s = 0
+        sums = []
         for url in self.ranks.keys():
-            tot = self.ranks[url][0]*x + self.ranks[url][1]*y
-            arg_vector.append(tot)
-            s+=tot
-        l = len(arg_vector)
-        if l==0:
-            return 0 
-        mu = s/l
-        deviation_mean = []
-        for i in arg_vector:
-            deviation_mean.append(abs(i-mu))
-        dev_sum = sum(deviation_mean)
-        sim = []
-        for i in deviation_mean:
-            sim.append(1-((i/dev_sum)))
-        sim_sum = sum(sim)
-        w_vec = []
-        for i in sim:
-            w_vec.append(i/sim_sum)
-        dowa = 0
-        for i in range(len(w_vec)):
-            dowa+=w_vec[i]*arg_vector[i]
-            
-        #print(x,y,f)
-        #print(sim,deviation_mean,arg_vector)
+            sums.append(self.ranks[url][0]*x + self.ranks[url][1]*y)
 
-        return dowa,deviation_mean
+        owa = sum(sums)
+        a_owa = owa/len(sums)
+
+        max_fit = max(sums)
+
+        cp = 0.5*max_fit
+
+        f = abs((a_owa-cp)/(max_fit-cp))
+
+        return f
 
     def fitness(self, x, y):
-        dowa, dev_mean = self.func(x, y)
+        ans = self.func(x, y)
 
-        if min(dev_mean)<100:
+        if ans == 0:
             return 99999
         else:
-            return abs(dowa)
+            return abs(1/ans)
 
     def start_ranking(self):
         # generate solutions
@@ -54,9 +39,8 @@ class genetic:
         for s in range(1000):
             solutions.append((random.uniform(0, 10000),
                               random.uniform(0, 10000)))
-        coun = 0
+
         for i in range(10000):
-            coun+=1
             rankedsolutions = []
             for s in solutions:
                 rankedsolutions.append((self.fitness(s[0], s[1]), s))
@@ -68,7 +52,7 @@ class genetic:
 
             bestsolutions = rankedsolutions[:100]
 
-            if rankedsolutions[0][0] > 999999:
+            if rankedsolutions[0][0] > 999999 and i<400:
                 final = rankedsolutions[0][1]
                 break
 
@@ -87,12 +71,8 @@ class genetic:
             solutions = newGen
         total = dict()
         x, y = final[0], final[1]
-        gen_ranks = dict()
         for url in self.ranks.keys():
-            gen_ranks[url] = (self.ranks[url][0]*x +
-                          self.ranks[url][1]*y)
-        maxi = max(gen_ranks.values())
-        maxi = maxi*(1.05)
-        for url in self.ranks.keys():
-            total[url] = (round(gen_ranks[url]*100/maxi,2), self.ranks[url][2], self.ranks[url][3])
+            total[url] = (self.ranks[url][0]*x +
+                          self.ranks[url][1]*y, self.ranks[url][2], self.ranks[url][3])
+
         return total
